@@ -1,0 +1,70 @@
+name: valgrind
+version: '3.17.0.RC1'
+summary: A programming tool for memory debugging, leak detection, and profiling.
+description: |
+  The Valgrind tool suite provides a number of debugging and profiling tools
+  that help you make your programs faster and more correct. The most popular of
+  these tools is called Memcheck. It can detect many memory-related errors that
+  are common in C and C++ programs and that can lead to crashes and
+  unpredictable behaviour.
+
+base: core18
+grade: stable
+confinement: classic
+
+apps:
+  callgrind-annotate:
+    command: usr/bin/callgrind_annotate
+
+  callgrind-control:
+    command: usr/bin/callgrind_control
+
+  cg-annotate:
+    command: usr/bin/cg_annotate
+
+  cg-diff:
+    command: usr/bin/cg_diff
+
+  cg-merge:
+    command: usr/bin/cg_merge
+
+  ms-print:
+    command: usr/bin/ms_print
+
+  valgrind:
+    command: usr/bin/valgrind
+    environment:
+      VALGRIND_LIB: $SNAP/usr/lib/valgrind
+
+  valgrind-di-server:
+    command: usr/bin/valgrind-di-server
+
+  valgrind-listener:
+    command: usr/bin/valgrind-listener
+
+  vgdb:
+    command: usr/bin/vgdb
+
+parts:
+  patches:
+    source: patches/
+    plugin: dump
+    organize:
+      0001-Failgrind.patch: patches/0001-Failgrind.patch
+    prime: [-*]
+
+  valgrind:
+    after: [patches]
+    plugin: autotools
+    source: https://sourceware.org/pub/valgrind/valgrind-$SNAPCRAFT_PROJECT_VERSION.tar.bz2
+    override-pull: |
+      snapcraftctl pull
+      patch -p1 < $SNAPCRAFT_STAGE/patches/0001-Failgrind.patch
+    override-build: |
+      ./autogen.sh
+      snapcraftctl build
+    configflags:
+    - --prefix=/usr
+    - --sysconfdir=/etc
+    - --enable-lto
+    prime: [-usr/share/doc/valgrind/valgrind_manual.ps]
