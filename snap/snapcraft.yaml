@@ -34,7 +34,7 @@ apps:
   valgrind:
     command: usr/bin/valgrind
     environment:
-      VALGRIND_LIB: $SNAP/usr/lib/valgrind
+      VALGRIND_LIB: $SNAP/usr/libexec/valgrind
 
   valgrind-di-server:
     command: usr/bin/valgrind-di-server
