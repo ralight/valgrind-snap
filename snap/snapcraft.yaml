@@ -1,5 +1,5 @@
 name: valgrind
-version: '3.17.0.RC1'
+version: '3.17.0.RC2'
 summary: A programming tool for memory debugging, leak detection, and profiling.
 description: |
   The Valgrind tool suite provides a number of debugging and profiling tools
