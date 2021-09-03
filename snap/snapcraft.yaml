@@ -2,15 +2,49 @@ name: valgrind
 version: '3.17.0'
 summary: A programming tool for memory debugging, leak detection, and profiling.
 description: |
-  The Valgrind tool suite provides a number of debugging and profiling tools
-  that help you make your programs faster and more correct. The most popular of
-  these tools is called Memcheck. It can detect many memory-related errors that
-  are common in C and C++ programs and that can lead to crashes and
-  unpredictable behaviour.
+  Valgrind is an instrumentation framework for building dynamic analysis tools.
+  There are Valgrind tools that can automatically detect many memory management
+  and threading bugs, and profile your programs in detail. You can also use
+  Valgrind to build new tools.
+
+  The Valgrind distribution currently includes six production-quality tools: a
+  memory error detector, two thread error detectors, a cache and
+  branch-prediction profiler, a call-graph generating cache and
+  branch-prediction profiler, a heap profiler, and a second heap profiler that
+  examines how heap blocks are used. It also includes two experimental tools: a
+  stack/global array overrun detector, and a SimPoint basic block vector
+  generator.
+
+  **Extra Tool**
+
+  This snap also includes the experimental tool Failgrind, which is not part of
+  the upstream Valgrind project.
+
+  **Documentation**
+
+  Documentation for this release which includes the Failgrind tool is available
+  at http://valgrind.ral.me/
+
+  The official Valgrind documentation is available at
+  http://valgrind.org/docs/manual/index.html
+
+  **Snap Package**
+
+  The source for this snap package can be found
+  https://github.com/ralight/valgrind-snap
+
+  **Disclaimer**
+
+  This package is not currently affiliated with the upstream valgrind project.
 
 base: core18
 grade: stable
 confinement: classic
+contact: roger@atchoo.org
+donate: https://github.com/sponsors/ralight
+issues: https://github.com/ralight/valgrind-snap/issues
+license: GPL-2.0+
+source-code: https://github.com/ralight/valgrind-snap
 
 apps:
   callgrind-annotate:
