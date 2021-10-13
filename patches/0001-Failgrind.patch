@@ -88,8 +88,8 @@ index cdb2663a2..3d2b0caf7 100644
 +   if (sci->status.what == SsHandToKernel) {
 +      if (pre_status.what == SsComplete) {
 +         /* Only override status if ent->before didn't modify status.what */
-+         //sci->status.what = SsComplete;
-+         //sci->status.sres = pre_status.sres;
++         sci->status.what = SsComplete;
++         sci->status.sres = pre_status.sres;
 +      }
 +   }
     /* If needed, gdbserver will report syscall entry to GDB */
@@ -5643,7 +5643,7 @@ index 000000000..ffc719af1
 +#ifndef __FAILGRIND_H
 +#define __FAILGRIND_H
 +
-+#include "valgrind.h"
++#include "pub_tool_clreq.h"
 +
 +/* !! ABIWARNING !! ABIWARNING !! ABIWARNING !! ABIWARNING !!
 +   This enum comprises an ABI exported by Valgrind to programs
@@ -5824,7 +5824,7 @@ index 000000000..2bbd7ca92
 +#include "pub_tool_tooliface.h"
 +#include "pub_tool_vki.h"
 +
-+#include "valgrind.h"
++#include "pub_tool_clreq.h"
 +#include "failgrind.h"
 +#include "fg_global.h"
 +
@@ -6089,7 +6089,7 @@ index 000000000..b49f889b6
 +#include "pub_tool_tooliface.h"
 +#include "pub_tool_vki.h"
 +
-+#include "valgrind.h"
++#include "pub_tool_clreq.h"
 +#include "failgrind.h"
 +#include "fg_global.h"
 +
@@ -6572,7 +6572,7 @@ index 000000000..bf630b622
 +#include "pub_tool_tooliface.h"
 +#include "pub_tool_vki.h"
 +
-+#include "valgrind.h"
++#include "pub_tool_clreq.h"
 +#include "failgrind.h"
 +#include "fg_global.h"
 +#include "clg_global.h"
@@ -8234,144 +8234,6 @@ index 000000000..1243d9db9
 +
 +   return 0;
 +}
-diff --git a/exp-failgrind/tests/alloc_input.callstacks b/exp-failgrind/tests/alloc_input.callstacks
-new file mode 100644
-index 000000000..6ab94a1ee
---- /dev/null
-+++ b/exp-failgrind/tests/alloc_input.callstacks
-@@ -0,0 +1,109 @@
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-+
-+# ./input
-+at 0x4C2E08B: malloc (vg_replace_malloc.c:299)
-+by 0x10869E: f_a (input.c:7)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086B5: f_a (input.c:9)
-+by 0x1086E4: main (input.c:18)
-diff --git a/exp-failgrind/tests/alloc_input.stderr.exp b/exp-failgrind/tests/alloc_input.stderr.exp
-new file mode 100644
-index 000000000..4efef5a93
---- /dev/null
-+++ b/exp-failgrind/tests/alloc_input.stderr.exp
-@@ -0,0 +1,9 @@
-+
-+
-+ Failgrind: 11 call stacks loaded from file
-+            11 allocations succeeded
-+            0 allocations failed
-+            0 new allocation callstacks found
-+            1 syscalls succeeded
-+            0 syscalls failed
-+            0 new syscall callstacks found
-diff --git a/exp-failgrind/tests/alloc_input.vgtest b/exp-failgrind/tests/alloc_input.vgtest
-new file mode 100644
-index 000000000..3ba18f3a5
---- /dev/null
-+++ b/exp-failgrind/tests/alloc_input.vgtest
-@@ -0,0 +1,2 @@
-+prog: alloc_input
-+vgopts: --callstack-input=alloc_input.callstacks --callstack-output=no --show-failed=yes
 diff --git a/exp-failgrind/tests/alloc_input1.stderr.exp b/exp-failgrind/tests/alloc_input1.stderr.exp
 new file mode 100644
 index 000000000..9b9874f45
@@ -9229,7 +9091,7 @@ index 000000000..1fc7cf7d4
 +sed \
 +-e "/^Failgrind, a memory allocation and syscall failure testing tool$/d" \
 +-e "/^NOTE: This is an Experimental-Class Valgrind Tool$/d"  \
-+-e "/^Copyright (C) [0-9]*-*[0-9]*, and GNU GPL'd, by Roger Light and Cedalo AG.$/d"
++-e "/^Copyright (C) [0-9]*-*[0-9]*, and GNU GPL'd, by Roger Light.$/d"
 diff --git a/exp-failgrind/tests/no_stats.c b/exp-failgrind/tests/no_stats.c
 new file mode 100644
 index 000000000..39cab9f27
@@ -9436,7 +9298,7 @@ index 000000000..994d24b05
 +
 +   /* This should fail with EPIPE (specific failure for open() that wouldn't
 +    * normally be possible) */
-+   fd = open("syscall_errno_specific.vgtest", O_RDONLY);
++   fd = open("syscall_errno_specific1.vgtest", O_RDONLY);
 +   if (fd < 0) {
 +      printf("Failed to open file: ");
 +      if (errno == EPIPE) {
@@ -9517,7 +9379,7 @@ index 000000000..b5ac30bd4
 +   int pid;
 +
 +   /* This should fail with EACCES (specific failure for open()) */
-+   fd = open("syscall_errno_specific.vgtest", O_RDONLY);
++   fd = open("syscall_errno_specific2.vgtest", O_RDONLY);
 +   if (fd < 0) {
 +      printf("Failed to open file: ");
 +      if (errno == EACCES) {
