@@ -38,11 +38,11 @@ description: |
 base: core18
 grade: stable
 confinement: classic
-contact: roger@atchoo.org
-donation: https://github.com/sponsors/ralight
-issues: https://github.com/ralight/valgrind-snap/issues
+#contact: roger@atchoo.org
+#donation: https://github.com/sponsors/ralight
+#issues: https://github.com/ralight/valgrind-snap/issues
 license: GPL-2.0+
-source-code: https://github.com/ralight/valgrind-snap
+#source-code: https://github.com/ralight/valgrind-snap
 
 apps:
   callgrind-annotate:
