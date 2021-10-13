@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
 index 319401047..239f5c563 100755
 --- a/configure.ac
 +++ b/configure.ac
-@@ -4990,6 +4990,8 @@ AC_CONFIG_FILES([
+@@ -5206,6 +5206,8 @@ AC_CONFIG_FILES([
     exp-bbv/tests/amd64-linux/Makefile
     exp-bbv/tests/ppc32-linux/Makefile
     exp-bbv/tests/arm-linux/Makefile
@@ -42,7 +42,7 @@ diff --git a/coregrind/m_syswrap/syswrap-main.c b/coregrind/m_syswrap/syswrap-ma
 index cdb2663a2..3d2b0caf7 100644
 --- a/coregrind/m_syswrap/syswrap-main.c
 +++ b/coregrind/m_syswrap/syswrap-main.c
-@@ -1714,6 +1714,12 @@ static void ensure_initialised ( void )
+@@ -2016,6 +2016,12 @@ static void ensure_initialised ( void )
     }
  }
  
@@ -55,7 +55,7 @@ index cdb2663a2..3d2b0caf7 100644
  /* --- This is the main function of this file. --- */
  
  void VG_(client_syscall) ( ThreadId tid, UInt trc )
-@@ -1723,6 +1729,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2025,6 +2025,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
     const SyscallTableEntry* ent;
     SyscallArgLayout         layout;
     SyscallInfo*             sci;
@@ -63,7 +63,7 @@ index cdb2663a2..3d2b0caf7 100644
  
     ensure_initialised();
  
-@@ -1894,6 +1901,8 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2214,6 +2214,8 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
     PRINT("SYSCALL[%d,%u](%s) ",
        VG_(getpid)(), tid, VG_SYSNUM_STRING(sysno));
  
@@ -72,7 +72,7 @@ index cdb2663a2..3d2b0caf7 100644
     /* Do any pre-syscall actions */
     if (VG_(needs).syscall_wrapper) {
        UWord tmpv[8];
-@@ -1905,7 +1914,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2225,7 +2225,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
        tmpv[5] = sci->orig_args.arg6;
        tmpv[6] = sci->orig_args.arg7;
        tmpv[7] = sci->orig_args.arg8;
@@ -81,7 +81,7 @@ index cdb2663a2..3d2b0caf7 100644
                      &tmpv[0], sizeof(tmpv)/sizeof(tmpv[0]));
     }
  
-@@ -1915,6 +1924,13 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2235,6 +2235,13 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
                    &layout, 
                    &sci->args, &sci->status, &sci->flags );
     
