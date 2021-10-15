@@ -7670,7 +7670,7 @@ new file mode 100644
 index 000000000..fde7e0ba6
 --- /dev/null
 +++ b/exp-failgrind/tests/Makefile.am
-@@ -0,0 +1,45 @@
+@@ -0,0 +1,47 @@
 +
 +include $(top_srcdir)/Makefile.tool-tests.am
 +
@@ -7696,9 +7696,11 @@ index 000000000..fde7e0ba6
 +	alloc_thresh_high_low_invert2.vgtest alloc_thresh_high_low_invert2.stderr.exp \
 +	alloc_toggle_1.vgtest alloc_toggle_1.stderr.exp \
 +	no_stats.vgtest no_stats.stderr.exp \
-+	syscall_atstart.vgtest \
-+	syscall_errno.vgtest syscall_errno_specific1.vgtest syscall_errno_specific2.vgtest \
-+	syscall_toggle_1.vgtest
++	syscall_atstart.vgtest syscall_atstart.stderr.exp syscall_atstart.stdout.exp \
++	syscall_errno.vgtest syscall_errno.stderr.exp syscall_errno.stdout.exp \
++	syscall_errno_specific1.vgtest syscall_errno_specific1.stderr.exp syscall_errno_specific1.stdout.exp \
++	syscall_errno_specific2.vgtest syscall_errno_specific2.stderr.exp syscall_errno_specific2.stdout.exp \
++	syscall_toggle_1.vgtest syscall_toggle_1.stderr.exp syscall_toggle_1.stdout.exp
 +
 +check_PROGRAMS = alloc_atstart \
 +				 alloc_clreq1 alloc_clreq2 \
