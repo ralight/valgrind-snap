@@ -43,6 +43,7 @@ confinement: classic
 #issues: https://github.com/ralight/valgrind-snap/issues
 license: GPL-2.0+
 #source-code: https://github.com/ralight/valgrind-snap
+compression: lzo
 
 apps:
   callgrind-annotate:
