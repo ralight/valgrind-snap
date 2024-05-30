@@ -1,5 +1,5 @@
 name: valgrind
-version: '3.22.0'
+version: '3.23.0'
 summary: A programming tool for memory debugging, leak detection, and profiling.
 description: |
   Valgrind is an instrumentation framework for building dynamic analysis tools.
@@ -35,7 +35,7 @@ description: |
 
   This package is not currently affiliated with the upstream valgrind project.
 
-base: core18
+base: core20
 grade: stable
 confinement: classic
 #contact: roger@atchoo.org
