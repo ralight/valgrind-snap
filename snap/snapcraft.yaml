@@ -35,7 +35,7 @@ description: |
 
   This package is not currently affiliated with the upstream valgrind project.
 
-base: core20
+base: core24
 grade: stable
 confinement: classic
 #contact: roger@atchoo.org
@@ -96,7 +96,7 @@ parts:
     override-build: |
       ./autogen.sh
       snapcraftctl build
-    configflags:
+    autotools-configure-parameters:
     - --prefix=/usr
     - --sysconfdir=/etc
     - --enable-lto
