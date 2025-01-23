@@ -82,20 +82,26 @@ parts:
   patches:
     source: patches/
     plugin: dump
+    override-pull: |
+      craftctl default
     organize:
       0001-Failgrind.patch: patches/0001-Failgrind.patch
+    stage:
+      - patches/0001-Failgrind.patch
     prime: [-*]
 
   valgrind:
     after: [patches]
     plugin: autotools
-    source: https://sourceware.org/pub/valgrind/valgrind-$SNAPCRAFT_PROJECT_VERSION.tar.bz2
+    source: https://sourceware.org/pub/valgrind/valgrind-$CRAFT_PROJECT_VERSION.tar.bz2
+    build-attributes:
+      - enable-patchelf
     override-pull: |
-      snapcraftctl pull
-      patch -p1 < $SNAPCRAFT_STAGE/patches/0001-Failgrind.patch
+      craftctl default
+      patch -p1 < $CRAFT_PROJECT_DIR/patches/0001-Failgrind.patch
     override-build: |
       ./autogen.sh
-      snapcraftctl build
+      craftctl default
     autotools-configure-parameters:
     - --prefix=/usr
     - --sysconfdir=/etc
