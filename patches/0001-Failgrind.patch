@@ -2,7 +2,7 @@ diff --git a/Makefile.am b/Makefile.am
 index f8c3fc58d..49a68472c 100644
 --- a/Makefile.am
 +++ b/Makefile.am
-@@ -15,7 +15,8 @@ TOOLS = \
+@@ -17,7 +17,8 @@ TOOLS = \
  		none
  
  EXP_TOOLS = \
@@ -16,7 +16,7 @@ diff --git a/callgrind/main.c b/callgrind/main.c
 index 904eb42a9..c359efc4b 100644
 --- a/callgrind/main.c
 +++ b/callgrind/main.c
-@@ -1740,7 +1740,7 @@ void collect_time (struct vki_timespec *systime, struct vki_timespec *syscputime
+@@ -1742,7 +1742,7 @@ void collect_time (struct vki_timespec *systime, struct vki_timespec *syscputime
  }
  
  static
@@ -29,7 +29,7 @@ diff --git a/configure.ac b/configure.ac
 index 319401047..239f5c563 100755
 --- a/configure.ac
 +++ b/configure.ac
-@@ -5206,6 +5206,8 @@ AC_CONFIG_FILES([
+@@ -6088,6 +6088,8 @@ AC_CONFIG_FILES([
     exp-bbv/tests/amd64-linux/Makefile
     exp-bbv/tests/ppc32-linux/Makefile
     exp-bbv/tests/arm-linux/Makefile
@@ -42,7 +42,7 @@ diff --git a/coregrind/m_syswrap/syswrap-main.c b/coregrind/m_syswrap/syswrap-ma
 index cdb2663a2..3d2b0caf7 100644
 --- a/coregrind/m_syswrap/syswrap-main.c
 +++ b/coregrind/m_syswrap/syswrap-main.c
-@@ -2016,6 +2016,12 @@ static void ensure_initialised ( void )
+@@ -2176,6 +2176,12 @@ static void ensure_initialised ( void )
     }
  }
  
@@ -55,33 +55,33 @@ index cdb2663a2..3d2b0caf7 100644
  /* --- This is the main function of this file. --- */
  
  void VG_(client_syscall) ( ThreadId tid, UInt trc )
-@@ -2025,6 +2025,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
-    const SyscallTableEntry* ent;
+@@ -2187,6 +2211,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
     SyscallArgLayout         layout;
     SyscallInfo*             sci;
+    Bool                     syscall_syscall = False;
 +   SyscallStatus            pre_status;
  
     ensure_initialised();
  
-@@ -2214,6 +2214,8 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2380,6 +2380,8 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
     PRINT("SYSCALL[%d,%u](%s) ",
-       VG_(getpid)(), tid, VG_SYSNUM_STRING(sysno));
+       VG_(getpid)(), tid, VG_SYSNUM_STRING(canonical_sysno));
  
 +   pre_status.what = SsHandToKernel;
 +   pre_status.sres = VG_(mk_SysRes_Error)(0);
     /* Do any pre-syscall actions */
     if (VG_(needs).syscall_wrapper) {
        UWord tmpv[8];
-@@ -2225,7 +2225,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2391,7 +2391,7 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
        tmpv[5] = sci->orig_args.arg6;
        tmpv[6] = sci->orig_args.arg7;
        tmpv[7] = sci->orig_args.arg8;
--      VG_TDICT_CALL(tool_pre_syscall, tid, sysno,
-+      VG_TDICT_CALL(tool_pre_syscall, tid, &pre_status, sysno,
+-      VG_TDICT_CALL(tool_pre_syscall, tid, canonical_sysno,
++      VG_TDICT_CALL(tool_pre_syscall, tid, &pre_status, canonical_sysno,
                      &tmpv[0], sizeof(tmpv)/sizeof(tmpv[0]));
     }
  
-@@ -2235,6 +2235,13 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
+@@ -2401,6 +2401,13 @@ void VG_(client_syscall) ( ThreadId tid, UInt trc )
                    &layout, 
                    &sci->args, &sci->status, &sci->flags );
     
@@ -93,13 +93,13 @@ index cdb2663a2..3d2b0caf7 100644
 +      }
 +   }
     /* If needed, gdbserver will report syscall entry to GDB */
-    VG_(gdbserver_report_syscall)(True, sysno, tid);
+    VG_(gdbserver_report_syscall)(True, canonical_sysno, tid);
  
 diff --git a/coregrind/m_tooliface.c b/coregrind/m_tooliface.c
 index 0c33498db..2262976cd 100644
 --- a/coregrind/m_tooliface.c
 +++ b/coregrind/m_tooliface.c
-@@ -298,7 +298,7 @@ void VG_(needs_client_requests)(
+@@ -302,7 +302,7 @@ void VG_(needs_client_requests)(
  }
  
  void VG_(needs_syscall_wrapper)(
